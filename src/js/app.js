@@ -1,22 +1,18 @@
 // TODO: write your code here
-export default function orderByProps(obj, [name, level]) {
-  const obj = {name: 'мечник', health: 10, level: 2, attack: 80, defence: 40};
-  const arrSort = [];
-  const keys = Object.keys(obj).sort(); 
+const obj = { name: 'мечник', health: 10, level: 2, attack: 80, defence: 40 };
 
-  for (let i = 0; i < keys.length; i += 1) { 
-    if (keys[i] === name) {
-      arrSort.unshift({ key: keys[i], value: obj[keys[i]] });
-    } if (keys[i] === level) {
-      arrSort.push({ key: keys[i], value: obj[keys[i]] });
+export default function orderByProps(obj, order) {
+    const resultData = [];
+    const propsOrder = [];
+
+    for (const key in obj) {
+        if (order.includes(key)) {
+            const index = order.indexOf(key);
+            propsOrder.splice(index, 0, { key, value: obj[key] });
+        } else {
+            resultData.push({ key, value: obj[key] });
+        }
     }
-  }
-
-  for (const i in keys) { 
-    if (keys[i] !== name && keys[i] !== level) {
-      arrSort.push({ key: keys[i], value: obj[keys[i]]});
-    }
-  }
-
-  return arrSort;
+    resultData.sort((a, b) => (a.key > b.key ? 1 : -1));
+    return [...propsOrder, ...resultData];
 }
